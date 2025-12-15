@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
    <div style="height: 100vh; display: flex; flex-direction: column;">
+    <div class="dis">
+      <img  src="images/chat.jpg" class="profile-pic"/>
+      <ul id="userId"></ul>
+    
+</div>
+    
     <ul style="list-style: none; font-size: 20px; flex: 1;" id="messages"></ul>
     <form  style=" margin-bottom: 10px; width:90vw ; height: 30px;" id="form" action="" >
        <input style="width: 80%; height: 100%;" id="input" autocomplete="off"/> <button style="width: 10%; height: 100%;">Send</button>
@@ -17,20 +24,37 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script>
   let socket = io();
+  let userId=document.getElementById("userId")
   let messages= document.getElementById("messages");
   let form=document.getElementById("form");
   let input=document.getElementById("input");
   form.addEventListener('submit',function(e){
     e.preventDefault();
     if(input.value){
-      socket.emit('chat message',input.value);
+      const data={
+        message:input.value,
+        socketId:socket.id,
+      }
+      socket.emit('chat message',data);
       input.value= '';
     }
   })
 
-  socket.on('chat message',(msg)=>{
-    var item=document.createElement('li');
-    item.textContent=msg;
+  socket.on("welcome",(data)=>{
+     let item=document.createElement('li');
+     item.textContent=data.socketId;
+     userId.appendChild(item);
+
+  })
+
+  socket.on('chat message',(data)=>{
+    let item=document.createElement('li');
+    if(data.socketId===socket.id){
+      item.classList.add("my-messages");
+    }else{
+      item.classList.add("others-messages");
+    }
+    item.textContent=data.message;
     messages.appendChild(item);
     window.scrollTo(0,document.body.scrollHeight);
   })

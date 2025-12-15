@@ -1,0 +1,28 @@
+body{
+    font-family: sans-serif;
+}
+.profile-pic{
+    width: 70px;
+    height: auto;
+}
+#userId{
+    list-style: none;
+    font-size: 20px;
+}
+.dis{
+    display: flex;
+}
+.my-messages{
+    background-color: green;
+    padding: 5px;
+    margin: 2px;
+    width: fit-content;
+     padding-right: 15px;
+}
+.others-messages{
+    background-color: purple;
+     padding: 5px;
+     padding-right: 15px;
+    margin: 2px;
+    width: fit-content;
+}
