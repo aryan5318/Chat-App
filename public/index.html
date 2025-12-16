@@ -9,55 +9,25 @@
 <body>
    <div style="height: 100vh; display: flex; flex-direction: column;">
     <div class="dis">
-      <img  src="images/chat.jpg" class="profile-pic"/>
-      <ul id="userId"></ul>
-    
-</div>
-    
-    <ul style="list-style: none; font-size: 20px; flex: 1;" id="messages"></ul>
-    <form  style=" margin-bottom: 10px; width:90vw ; height: 30px;" id="form" action="" >
-       <input style="width: 80%; height: 100%;" id="input" autocomplete="off"/> <button style="width: 10%; height: 100%;">Send</button>
+    <img  src="images/chat.jpg" class="profile-pic"/>
+    <ul id="userId" style="padding: 0; margin-left: 20px;"></ul>
+    </div>
+    <hr style="border: none; height: 2px; background:black; margin: 10px 0;">
+
+   
+   
+    <ul style="list-style: none; font-size: 20px; flex: 1; " id="messages"></ul>
+   
+    <form  style=" margin-bottom: 30px; width:90vw ; height: 30px;" id="form" action="" >
+       <input placeholder="Start Typing ...." style="width: 80%; height: 100%; padding: 5px; font-family: cursive;" id="input" autocomplete="off"/> <button style="width: 10%; height: 100%;font-family: cursive;">Send</button>
+       <input type="file" id="ImageInput" />
     </form>
     </div>
     
     <!--To Load Socket.io client-->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script>
-  let socket = io();
-  let userId=document.getElementById("userId")
-  let messages= document.getElementById("messages");
-  let form=document.getElementById("form");
-  let input=document.getElementById("input");
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    if(input.value){
-      const data={
-        message:input.value,
-        socketId:socket.id,
-      }
-      socket.emit('chat message',data);
-      input.value= '';
-    }
-  })
-
-  socket.on("welcome",(data)=>{
-     let item=document.createElement('li');
-     item.textContent=data.socketId;
-     userId.appendChild(item);
-
-  })
-
-  socket.on('chat message',(data)=>{
-    let item=document.createElement('li');
-    if(data.socketId===socket.id){
-      item.classList.add("my-messages");
-    }else{
-      item.classList.add("others-messages");
-    }
-    item.textContent=data.message;
-    messages.appendChild(item);
-    window.scrollTo(0,document.body.scrollHeight);
-  })
-</script>
+    <script src="js/socket.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

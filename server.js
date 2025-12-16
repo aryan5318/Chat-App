@@ -27,16 +27,18 @@ io.on('connection',(socket)=>{
       socketId:socket.id
     }
     )
-     socket.on('chat message', (data) => {
-    console.log('message: ' + data);
-
-// sending message to every one including the sender;
-    io.emit("chat message", {
-      message: data.message,
-      socketId: socket.id // trusted from server
-    });
     
-  });
+     
+// sending message to every one including the sender;
+   socket.on("chat message", (data) => {
+    console.log(data.image);
+    console.log("hi"+data.message);
+  data.socketId = socket.id; // trust server
+  io.emit("chat message", data);
+});
+
+    
+  
 })
 
 
